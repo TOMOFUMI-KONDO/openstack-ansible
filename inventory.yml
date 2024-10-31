@@ -1,0 +1,25 @@
+all:
+  children:
+    databases:
+    masters:
+    workers:
+
+openstack:
+  children:
+    masters:
+    workers:
+
+databases:
+  hosts:
+    master01:
+      ansible_host: 192.168.1.101
+
+masters:
+  hosts:
+    master01:
+      ansible_host: 192.168.1.101
+
+workers:
+  hosts:
+    worker01:
+      ansible_host: 192.168.1.102
