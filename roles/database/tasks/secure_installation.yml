@@ -1,23 +1,24 @@
 ---
+# NOTE: This is in still under construction. Don't use!
 - name: set_root_pass
-  mysql_user:
+  community.mysql.mysql_user:
       login_user: root
-      login_password: ""
-      user: root
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      name: root
       host_all: true
       password: "{{ database_root_pass }}"
 - name: disable_remote_root_login
-  mysql_user:
+  community.mysql.mysql_user:
       login_user: root
       login_password: "{{ database_root_pass }}"
-      user: root
+      name: root
       host: "{{ ansible_fqdn | lower }}"
       state: absent
 - name: remove_anonymous_users
-  mysql_user:
+  community.mysql.mysql_user:
       login_user: root
       login_password: "{{ database_root_pass }}"
-      user: ''
+      name: ''
       host_all: true
       state: absent
 - name: remove_test_database
@@ -26,11 +27,3 @@
       login_password: "{{ database_root_pass }}"
       db: test
       state: absent
-  register: remove_testdb
-- name: remove_test_database_priviledges
-  block:
-    - shell: >
-        mysql -u root -p{{ database_root_pass }} 
-        -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'"
-    - shell: mysql -u root -p{{ database_root_pass }} -e "FLUSH PRIVILEGES"
-  when: remove_testdb.changed
