@@ -1,0 +1,23 @@
+---
+- name: install_memcached
+  ansible.builtin.apt:
+    name: memcached
+
+- name: install_python_memcached_package
+  ansible.builtin.apt:
+    name: python3-memcache
+
+- name: start_memcached
+  ansible.builtin.service:
+    name: memcached
+    state: started
+    enabled: true
+
+- name: pub_memcached_config
+  ansible.builtin.template:
+    src: ./memcached.conf.j2
+    dest:  /etc/memcached.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_memcached

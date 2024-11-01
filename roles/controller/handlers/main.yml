@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: chrony
     state: restarted
+
+- name: restart_memcached
+  ansible.builtin.service:
+    name: memcached
+    state: restarted

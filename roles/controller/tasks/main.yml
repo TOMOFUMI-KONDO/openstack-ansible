@@ -6,3 +6,7 @@
 - name: setup_rabbitmq
   ansible.builtin.include_tasks:
     file: rabbitmq.yml
+
+- name: setup_memcached
+  ansible.builtin.include_tasks:
+    file: memcached.yml
