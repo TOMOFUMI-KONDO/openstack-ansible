@@ -1,0 +1,5 @@
+---
+- name: setup_ntp
+  ansible.builtin.include_tasks:
+    file: ntp.yml
+

@@ -1,0 +1,7 @@
+- hosts: computes
+  become: yes
+  roles:
+    - compute
+  vars_files:
+    - ./vars/vars.yml
+    - ./vars/credential.yml
