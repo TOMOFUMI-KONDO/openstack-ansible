@@ -25,3 +25,4 @@
 - name: secure_installation
   ansible.builtin.include_tasks:
     file: secure_installation.yml
+  when: false

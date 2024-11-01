@@ -1,0 +1,7 @@
+- hosts: controllers
+  become: yes
+  roles:
+    - controller
+  vars_files:
+    - ./vars/vars.yml
+    - ./vars/credential.yml

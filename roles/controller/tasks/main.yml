@@ -1,0 +1,8 @@
+---
+- name: setup_ntp
+  ansible.builtin.include_tasks:
+    file: ntp.yml
+
+- name: setup_rabbitmq
+  ansible.builtin.include_tasks:
+    file: rabbitmq.yml
