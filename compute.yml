@@ -2,6 +2,7 @@
   become: yes
   roles:
     - common
+    - openstack
     - compute
   vars_files:
     - ./vars/vars.yml

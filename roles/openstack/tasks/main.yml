@@ -1,0 +1,12 @@
+---
+- name: install_ubuntu_cloud_keyring
+  ansible.builtin.apt:
+    name: ubuntu-cloud-keyring
+
+- name: install_software_properties_common
+  ansible.builtin.apt:
+    name: software-properties-common
+
+- name: add_cloud_archive_repo
+  ansible.builtin.apt_repository:
+    repo: deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/dalmatian main
