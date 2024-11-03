@@ -48,7 +48,7 @@
   changed_when: false
   run_once: true
 
-- name: pub_apache2_config
+- name: put_apache2_config
   ansible.builtin.copy:
     src: ./apache2.conf
     dest:  /etc/apache2/apache2.conf
