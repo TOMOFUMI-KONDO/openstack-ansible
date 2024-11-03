@@ -8,3 +8,8 @@
   ansible.builtin.service:
     name: memcached
     state: restarted
+
+- name: restart_etcd
+  ansible.builtin.service:
+    name: etcd
+    state: restarted

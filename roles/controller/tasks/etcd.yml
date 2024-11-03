@@ -1,0 +1,19 @@
+---
+- name: install_etcd
+  ansible.builtin.apt:
+    name: etcd-server
+
+- name: start_etcd
+  ansible.builtin.service:
+    name: etcd
+    state: started
+    enabled: true
+
+- name: pub_etcd_config
+  ansible.builtin.template:
+    src: ./etcd.j2
+    dest:  /etc/default/etcd
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_etcd

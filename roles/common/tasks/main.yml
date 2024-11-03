@@ -1,0 +1,4 @@
+---
+- name: print_distribution_release
+  ansible.builtin.debug:
+    msg: "{{ ansible_distribution_release }}"

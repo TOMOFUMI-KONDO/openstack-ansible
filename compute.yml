@@ -1,6 +1,7 @@
 - hosts: computes
   become: yes
   roles:
+    - common
     - compute
   vars_files:
     - ./vars/vars.yml

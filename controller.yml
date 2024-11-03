@@ -1,6 +1,7 @@
 - hosts: controllers
   become: yes
   roles:
+    - common
     - controller
   vars_files:
     - ./vars/vars.yml
