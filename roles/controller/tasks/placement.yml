@@ -1,0 +1,49 @@
+---
+- name: create_placement_user
+  openstack.cloud.identity_user:
+    name: placement
+    password: "{{ openstack_placement_pass }}"
+    domain: default
+
+- name: add_admin_role_to_placement
+  openstack.cloud.role_assignment:
+    user: placement
+    role: admin
+    project: service
+
+- name: add_placement_service
+  openstack.cloud.catalog_service:
+   name: placement
+   type: placement
+   description: Placement API
+
+- name: create_endpoints
+  openstack.cloud.endpoint:
+     service: placement
+     endpoint_interface: "{{ item }}"
+     url: http://controller:8778
+     region: RegionOne
+  loop:
+    - public
+    - internal
+    - admin
+  register: endpoints
+
+- name: install_placement
+  ansible.builtin.apt:
+    name: placement-api
+
+- name: put_placement_config
+  ansible.builtin.template:
+    src: ./placement.conf.j2
+    dest:  /etc/placement/placement.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_apache2
+
+- name: run_db_sync
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "placement-manage db sync" placement
+  changed_when: false
+  run_once: true

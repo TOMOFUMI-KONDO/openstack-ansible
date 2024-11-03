@@ -22,3 +22,7 @@
 - name: setup_glance
   ansible.builtin.include_tasks:
     file: glance.yml
+
+- name: setup_placement
+  ansible.builtin.include_tasks:
+    file: placement.yml
