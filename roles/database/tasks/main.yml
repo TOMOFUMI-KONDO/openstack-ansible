@@ -37,6 +37,7 @@
   loop:
     - localhost
     - '%'
+  run_once: true
 
 - name: create_openstack_dbs
   community.mysql.mysql_db:
@@ -50,6 +51,7 @@
     - nova
     - nova_cell0
     - neutron
+  run_once: true
 
 - name: create_openstack_db_users
   ansible.builtin.include_tasks:
@@ -64,3 +66,4 @@
     - { user: 'neutron', db: 'neutron', pass: "{{ database_neutron_pass }}" }
   loop_control:
     loop_var: outer_item
+  run_once: true

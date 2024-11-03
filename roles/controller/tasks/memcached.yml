@@ -13,7 +13,7 @@
     state: started
     enabled: true
 
-- name: pub_memcached_config
+- name: put_memcached_config
   ansible.builtin.template:
     src: ./memcached.conf.j2
     dest:  /etc/memcached.conf

@@ -14,3 +14,7 @@
 - name: setup_etcd
   ansible.builtin.include_tasks:
     file: etcd.yml
+
+- name: setup_keystone
+  ansible.builtin.include_tasks:
+    file: keystone.yml

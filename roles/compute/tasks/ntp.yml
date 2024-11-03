@@ -9,7 +9,7 @@
     state: started
     enabled: true
 
-- name: pub_chrony_config
+- name: put_chrony_config
   ansible.builtin.copy:
     src: ./chrony.conf
     dest:  /etc/chrony/chrony.conf

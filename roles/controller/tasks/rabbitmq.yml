@@ -16,3 +16,4 @@
     configure_priv: .*
     read_priv: .*
     write_priv: .*
+  run_once: true
