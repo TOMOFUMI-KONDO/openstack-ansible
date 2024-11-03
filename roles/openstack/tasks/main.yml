@@ -10,3 +10,7 @@
 - name: add_cloud_archive_repo
   ansible.builtin.apt_repository:
     repo: deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/dalmatian main
+
+- name: install_openstackclient
+  ansible.builtin.apt:
+    name: python3-openstackclient
