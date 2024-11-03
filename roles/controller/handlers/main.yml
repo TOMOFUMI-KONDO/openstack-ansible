@@ -18,3 +18,8 @@
   ansible.builtin.service:
     name: apache2
     state: restarted
+
+- name: restart_glance_api
+  ansible.builtin.service:
+    name: glance-api
+    state: restarted

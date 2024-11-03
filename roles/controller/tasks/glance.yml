@@ -1,0 +1,58 @@
+---
+- name: create_glacne_user
+  openstack.cloud.identity_user:
+    name: glance
+    password: "{{ openstack_glance_pass }}"
+    domain: default
+
+- name: add_admin_role_to_glance
+  openstack.cloud.role_assignment:
+    user: glance
+    role: admin
+    project: service
+
+- name: add_glance_service
+  openstack.cloud.catalog_service:
+   name: glance
+   type: image
+   description: OpenStack Image
+
+- name: create_endpoints
+  openstack.cloud.endpoint:
+     service: glance
+     endpoint_interface: "{{ item }}"
+     url: http://controller:9292
+     region: RegionOne
+  loop:
+    - public
+    - internal
+    - admin
+  register: endpoints
+
+- name: install_glance
+  ansible.builtin.apt:
+    name: glance
+
+- name: put_glance_config
+  ansible.builtin.template:
+    src: ./glance-api.conf.j2
+    dest:  /etc/glance/glance-api.conf
+    owner: root
+    group: root
+    mode: '644'
+  vars:
+    glance_public_endpoint: "{{ endpoints['results'][0]['endpoint']['id'] }}"
+  notify: restart_glance_api
+
+- name: add_reader_role_to_glance
+  openstack.cloud.role_assignment:
+    user: glance
+    domain: Default
+    system: all
+    role: reader
+
+- name: run_db_sync
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "glance-manage db_sync" glance
+  changed_when: false
+  run_once: true

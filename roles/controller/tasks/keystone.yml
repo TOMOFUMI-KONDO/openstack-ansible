@@ -15,25 +15,26 @@
   ansible.builtin.command:
     cmd: keystone-manage db_sync --check
   register: check_db_sync
-  changed_when: "{{ check_db_sync | int != 0 | bool }}"
+  failed_when: "{{ check_db_sync.rc == 1 }}"
+  changed_when: "{{ check_db_sync not in [2, 3, 4] }}"
   run_once: true
 
 - name: run_db_sync
   ansible.builtin.command:
     cmd: su -s /bin/sh -c "keystone-manage db_sync" keystone
-  when: "{{ check_db_sync.rc | int != 0 | bool }}"
+  when: "{{ check_db_sync.rc in [2, 3, 4] }}"
   run_once: true
 
 - name: run_fernet_setup
   ansible.builtin.command:
     cmd: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
-  when: "{{ check_db_sync.rc | int != 0 | bool }}"
+  when: "{{ check_db_sync.rc in [2, 3, 4] }}"
   run_once: true
 
 - name: run_credential_setup
   ansible.builtin.command:
     cmd: keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
-  when: "{{ check_db_sync.rc | int != 0 | bool }}"
+  when: "{{ check_db_sync.rc in [2, 3, 4] }}"
   run_once: true
 
 - name: run_bootstrap

@@ -18,3 +18,7 @@
 - name: setup_keystone
   ansible.builtin.include_tasks:
     file: keystone.yml
+
+- name: setup_glance
+  ansible.builtin.include_tasks:
+    file: glance.yml
