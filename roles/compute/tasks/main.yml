@@ -3,3 +3,6 @@
   ansible.builtin.include_tasks:
     file: ntp.yml
 
+- name: setup_nova
+  ansible.builtin.include_tasks:
+    file: nova.yml

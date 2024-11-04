@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: chrony
     state: restarted
+
+- name: restart_nova
+  ansible.builtin.service:
+    name: nova-compute
+    state: restarted
