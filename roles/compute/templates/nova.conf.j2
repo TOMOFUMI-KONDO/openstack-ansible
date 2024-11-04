@@ -3052,7 +3052,7 @@ password = "{{ openstack_nova_pass }}"
 # lxc - <No description provided>
 # qemu - <No description provided>
 # parallels - <No description provided>
-virt_type = qemu
+#virt_type = kvm
 
 #
 # Overrides the default libvirt URI of the chosen virtualization type. For more
@@ -3213,7 +3213,7 @@ cpu_mode = custom
 # An ordered list of CPU models the host supports. For more information, refer
 # to the documentation. (list value)
 # Deprecated group/name - [libvirt]/cpu_model
-#cpu_models =
+cpu_models = qemu
 
 #
 # Enable or disable guest CPU flags. For more information, refer to the
@@ -3823,7 +3823,7 @@ project_domain_name = Default
 
 # Username (string value)
 # Deprecated group/name - [neutron]/user_name
-#username = neutron
+username = neutron
 
 # User's domain id (string value)
 #user_domain_id = <None>
