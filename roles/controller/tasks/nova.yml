@@ -1,0 +1,80 @@
+---
+- name: create_nova_user
+  openstack.cloud.identity_user:
+    name: nova
+    password: "{{ openstack_nova_pass }}"
+    domain: default
+
+- name: add_admin_role_to_nova
+  openstack.cloud.role_assignment:
+    user: nova
+    role: admin
+    project: service
+
+- name: add_nova_service
+  openstack.cloud.catalog_service:
+   name: nova
+   type: compute
+   description: OpenStack Compute
+
+- name: create_endpoints
+  openstack.cloud.endpoint:
+     service: nova
+     endpoint_interface: "{{ item }}"
+     url: http://controller:8774/v2.1
+     region: RegionOne
+  loop:
+    - public
+    - internal
+    - admin
+  register: endpoints
+
+- name: install_nova_packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - nova-api
+    - nova-conductor
+    - nova-novncproxy
+    - nova-scheduler
+
+- name: put_nova_config
+  ansible.builtin.template:
+    src: ./nova.conf.j2
+    dest:  /etc/nova/nova.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_nova
+
+- name: run_api_db_sync
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "nova-manage api_db sync" nova
+  changed_when: false
+  run_once: true
+
+- name: list_nova_cells
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "nova-manage cell_v2 list_cells" nova
+  changed_when: false
+  register: cell_list
+
+- name: setl_cell_facts
+  set_fact:
+    cell0_record: '{{ cell_list.stdout_lines | select("regex", "[0-]{36}") }}'
+    cell1_record: '{{ cell_list.stdout_lines | select("regex", " cell1 ") }}'
+
+- name: run_map_cell0
+  ansible.builtin.command: 
+    cmd: su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+  when: not cell0_record
+
+- name: run_create_cell1
+  ansible.builtin.command: 
+    cmd: su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
+  when: not cell1_record
+
+- name: run_db_sync
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "nova-manage db sync" nova
+  changed_when: false

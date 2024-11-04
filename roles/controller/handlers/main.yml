@@ -23,3 +23,13 @@
   ansible.builtin.service:
     name: glance-api
     state: restarted
+
+- name: restart_nova
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - nova-api
+    - nova-scheduler
+    - nova-conductor
+    - nova-novncproxy

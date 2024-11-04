@@ -26,3 +26,7 @@
 - name: setup_placement
   ansible.builtin.include_tasks:
     file: placement.yml
+
+- name: setup_nova
+  ansible.builtin.include_tasks:
+    file: nova.yml
