@@ -18,8 +18,10 @@ controllers:
   hosts:
     master01:
       ansible_host: 192.168.1.101
+      provider_interface: eth0
 
 computes:
   hosts:
     worker01:
       ansible_host: 192.168.1.102
+      provider_interface: eth0

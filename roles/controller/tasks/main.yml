@@ -30,3 +30,7 @@
 - name: setup_nova
   ansible.builtin.include_tasks:
     file: nova.yml
+
+- name: setup_neutron
+  ansible.builtin.include_tasks:
+    file: neutron.yml

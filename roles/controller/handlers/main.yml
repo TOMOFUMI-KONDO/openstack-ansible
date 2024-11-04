@@ -33,3 +33,13 @@
     - nova-scheduler
     - nova-conductor
     - nova-novncproxy
+
+- name: restart_neutron
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - neutron-server
+    - neutron-openvswitch-agent
+    - neutron-dhcp-agent
+    - neutron-metadata-agent

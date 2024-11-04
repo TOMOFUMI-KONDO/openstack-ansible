@@ -27,7 +27,6 @@
     - public
     - internal
     - admin
-  register: endpoints
 
 - name: install_placement
   ansible.builtin.apt:

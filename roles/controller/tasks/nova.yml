@@ -27,7 +27,6 @@
     - public
     - internal
     - admin
-  register: endpoints
 
 - name: install_nova_packages
   ansible.builtin.apt:

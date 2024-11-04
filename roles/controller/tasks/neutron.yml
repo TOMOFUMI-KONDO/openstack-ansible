@@ -1,0 +1,82 @@
+---
+- name: create_neutron_user
+  openstack.cloud.identity_user:
+    name: neutron
+    password: "{{ openstack_neutron_pass }}"
+    domain: default
+
+- name: add_admin_role_to_neutron
+  openstack.cloud.role_assignment:
+    user: neutron
+    role: admin
+    project: service
+
+- name: add_neutron_service
+  openstack.cloud.catalog_service:
+   name: neutron
+   type: network
+   description: OpenStack Networking
+
+- name: create_endpoints
+  openstack.cloud.endpoint:
+     service: neutron
+     endpoint_interface: "{{ item }}"
+     url: http://controller:9696
+     region: RegionOne
+  loop:
+    - public
+    - internal
+    - admin
+
+- name: install_neutron_packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - neutron-server
+    - neutron-plugin-ml2
+    - neutron-openvswitch-agent
+    - neutron-dhcp-agent
+    - neutron-metadata-agent
+
+- name: create_br_provider
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-provider
+    fail_mode: secure
+
+- name: create_br_provider_port
+  openvswitch.openvswitch.openvswitch_port:
+    bridge: br-provider
+    port: "{{ provider_interface }}"
+
+- name: put_neutron_config_templates
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_neutron
+  loop:
+    - { src: './neutron.conf.j2', dest: '/etc/neutron/neutron.conf' }
+    - { src: './openvswitch_agent.ini.j2', dest: '/etc/neutron/plugins/ml2/openvswitch_agent.ini' }
+    - { src: './metadata_agent.ini.j2', dest: '/etc/neutron/metadata_agent.ini' }
+
+- name: put_neutron_config_files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_neutron
+  loop:
+    - { src: './ml2_conf.ini', dest: '/etc/neutron/plugins/ml2/ml2_conf.ini' }
+    - { src: './dhcp_agent.ini', dest: '/etc/neutron/dhcp_agent.ini' }
+
+- name: populate_neutron_db
+  ansible.builtin.command:
+    cmd: >
+      su -s /bin/sh -c "neutron-db-manage \
+        --config-file /etc/neutron/neutron.conf \
+        --config-file /etc/neutron/plugins/ml2/ml2_conf.ini \
+        upgrade head" neutron
