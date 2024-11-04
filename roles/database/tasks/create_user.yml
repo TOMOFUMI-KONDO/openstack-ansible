@@ -6,7 +6,7 @@
     name: "{{ outer_item['user'] }}"
     host: "{{ item }}"
     password: "{{ outer_item['pass'] }}"
-    priv: "{{ outer_item['db'] }}.*:ALL"
+    priv: "{{ outer_item['dbs'] | map('regex_replace', '(.+)', '\\1.*:ALL') | join ('/') }}"
   loop:
     - localhost
     - "%"

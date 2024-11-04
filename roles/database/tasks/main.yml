@@ -57,13 +57,11 @@
   ansible.builtin.include_tasks:
     file: create_user.yml
   with_items:
-    - { user: 'keystone', db: 'keystone',  pass: "{{ database_keystone_pass }}" }
-    - { user: 'glance', db: 'glance', pass: "{{ database_glance_pass }}" }
-    - { user: 'placement', db: 'placement', pass: "{{ database_placement_pass }}" }
-    - { user: 'nova', db: 'nova_api', pass: "{{ database_nova_pass }}" }
-    - { user: 'nova', db: 'nova', pass: "{{ database_nova_pass }}" }
-    - { user: 'nova', db: 'nova_cell0', pass: "{{ database_nova_pass }}" }
-    - { user: 'neutron', db: 'neutron', pass: "{{ database_neutron_pass }}" }
+    - { user: 'keystone', dbs: ['keystone'], pass: "{{ database_keystone_pass }}" }
+    - { user: 'glance', dbs: ['glance'], pass: "{{ database_glance_pass }}" }
+    - { user: 'placement', dbs: ['placement'], pass: "{{ database_placement_pass }}" }
+    - { user: 'nova', dbs: ['nova_api', 'nova', 'nova_cell0'], pass: "{{ database_nova_pass }}" }
+    - { user: 'neutron', dbs: ['neutron'], pass: "{{ database_neutron_pass }}" }
   loop_control:
     loop_var: outer_item
   run_once: true
