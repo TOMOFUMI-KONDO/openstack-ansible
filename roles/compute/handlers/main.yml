@@ -8,3 +8,8 @@
   ansible.builtin.service:
     name: nova-compute
     state: restarted
+
+- name: restart_neutron
+  ansible.builtin.service:
+    name: neutron-openvswitch-agent
+    state: restarted

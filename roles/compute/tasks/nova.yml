@@ -29,7 +29,3 @@
   vars:
     virt_type: "{{ 'kvm' if check_cpu_info.rc == 0 else 'qemu' }}"
   notify: restart_nova
-
-- name: discover_hosts
-  ansible.builtin.command:
-    cmd: su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
