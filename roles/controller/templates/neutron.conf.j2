@@ -1508,7 +1508,7 @@ password = "{{ openstack_neutron_pass }}"
 
 # Name of Nova region to use. Useful if Keystone manages more than one region.
 # (string value)
-#region_name = <None>
+region_name = RegionOne
 
 # Type of the Nova endpoint to use.  This endpoint will be looked up in the
 # Keystone catalog and should be one of public, internal or admin. (string
@@ -1563,7 +1563,7 @@ auth_type = password
 #keyfile = <None>
 
 # User's password (string value)
-password = "{{ openstack_neutron_pass }}"
+password = "{{ openstack_nova_pass }}"
 
 # Domain ID containing project (string value)
 #project_domain_id = <None>
@@ -1609,8 +1609,6 @@ user_domain_name = Default
 # Username (string value)
 # Deprecated group/name - [nova]/user_name
 username = nova
-
-region_name = RegionOne
 
 [oslo_concurrency]
 
