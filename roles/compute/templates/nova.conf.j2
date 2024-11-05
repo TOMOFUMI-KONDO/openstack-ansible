@@ -3052,7 +3052,7 @@ password = "{{ openstack_nova_pass }}"
 # lxc - <No description provided>
 # qemu - <No description provided>
 # parallels - <No description provided>
-#virt_type = kvm
+virt_type = qemu
 
 #
 # Overrides the default libvirt URI of the chosen virtualization type. For more
@@ -3207,13 +3207,13 @@ password = "{{ openstack_nova_pass }}"
 # none - Don't set a specific CPU model. For instances with ``[libvirt]
 # virt_type`` as KVM/QEMU, the default CPU model from QEMU will be used, which
 # provides a basic set of CPU features that are compatible with most hosts
-cpu_mode = custom
+cpu_mode = none
 
 #
 # An ordered list of CPU models the host supports. For more information, refer
 # to the documentation. (list value)
 # Deprecated group/name - [libvirt]/cpu_model
-cpu_models = qemu
+#cpu_models =
 
 #
 # Enable or disable guest CPU flags. For more information, refer to the
