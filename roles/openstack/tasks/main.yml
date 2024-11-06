@@ -3,14 +3,38 @@
   ansible.builtin.apt:
     name: ubuntu-cloud-keyring
 
-- name: install_software_properties_common
-  ansible.builtin.apt:
-    name: software-properties-common
-
 - name: add_cloud_archive_repo
   ansible.builtin.apt_repository:
     repo: deb http://ubuntu-cloud.archive.canonical.com/ubuntu {{ ansible_distribution_release }}-updates/dalmatian main
 
-- name: install_openstackclient
+- name: install_packages
   ansible.builtin.apt:
-    name: python3-openstackclient
+    name: "{{ item }}"
+  loop:
+    - software-properties-common
+    - cpu-checker
+    - bridge-utils
+    - vlan
+    - libvirt-clients
+    - zip
+    - python3-openstackclient
+
+- name: load_kernel_modules
+  community.general.modprobe:
+    name: "{{ item.name }}"
+    params: "{{ item.params | default('') }}"
+    persistent: 'present'
+  loop:
+    - { 'name': 'bridge'  }
+    - { 'name': 'br_netfilter'  }
+    - { 'name': '8021q'  }
+    - { 'name': 'vhost_net'  }
+
+- name: disable_iptables_for_bridge
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: '0'
+  loop:
+    - net.bridge.bridge-nf-call-arptables
+    - net.bridge.bridge-nf-call-ip6tables
+    - net.bridge.bridge-nf-call-iptables
