@@ -21,21 +21,6 @@
     mode: '644'
   notify: restart_nova
 
-- name: check_cpu_info
-  ansible.builtin.command:
-    cmd: egrep -c '(vmx|svm)' /proc/cpuinfo
-  register: check_cpu_info
-  failed_when: check_cpu_info.rc not in [0, 1]
-  changed_when: false
-
-- name: put_nova_compute_config
-  ansible.builtin.template:
-    src: ./nova-compute.conf.j2
-    dest:  /etc/nova/nova-compute.conf
-    owner: root
-    group: root
-    mode: '644'
-  vars:
-    virt_type: "{{ 'kvm' if check_cpu_info.rc == 0 else 'qemu' }}"
-  notify: restart_nova
-
+- name: install_nova_compute_qemu
+  ansible.builtin.apt:
+    name: nova-compute-qemu
