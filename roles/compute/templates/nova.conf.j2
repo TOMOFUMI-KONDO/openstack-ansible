@@ -619,7 +619,7 @@ my_ip = "{{ ansible_host }}"
 #periodic_fuzzy_delay = 60
 
 # List of APIs to be enabled by default (list value)
-#enabled_apis = osapi_compute,metadata
+enabled_apis = osapi_compute,metadata
 
 #
 # List of APIs with enabled SSL. For more information, refer to the
@@ -3052,7 +3052,7 @@ password = "{{ openstack_nova_pass }}"
 # lxc - <No description provided>
 # qemu - <No description provided>
 # parallels - <No description provided>
-virt_type = qemu
+#virt_type =
 
 #
 # Overrides the default libvirt URI of the chosen virtualization type. For more
@@ -3207,7 +3207,7 @@ virt_type = qemu
 # none - Don't set a specific CPU model. For instances with ``[libvirt]
 # virt_type`` as KVM/QEMU, the default CPU model from QEMU will be used, which
 # provides a basic set of CPU features that are compatible with most hosts
-cpu_mode = none
+#cpu_mode =
 
 #
 # An ordered list of CPU models the host supports. For more information, refer
@@ -6126,7 +6126,7 @@ novncproxy_base_url = http://controller:6080/vnc_auto.html
 #
 # This option represents a file name for the paste.deploy config for nova-api.
 # For more information, refer to the documentation. (string value)
-#api_paste_config = api-paste.ini
+api_paste_config=/etc/nova/api-paste.ini
 
 # DEPRECATED:
 # It represents a python format string that is used as the template to generate

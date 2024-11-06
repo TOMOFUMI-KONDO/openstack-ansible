@@ -1,7 +1,16 @@
 ---
-- name: install_nova_compute
+- name: install_packages
   ansible.builtin.apt:
-    name: nova-compute
+    name: "{{ item }}"
+  loop:
+    - nova-compute
+    - seabios
+
+- name: disable_libvirt_default_network
+  community.libvirt.virt_net:
+    name: default
+    state: absent
+    autostart: false
 
 - name: put_nova_config
   ansible.builtin.template:
@@ -29,3 +38,4 @@
   vars:
     virt_type: "{{ 'kvm' if check_cpu_info.rc == 0 else 'qemu' }}"
   notify: restart_nova
+
