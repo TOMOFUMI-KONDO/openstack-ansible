@@ -1119,7 +1119,7 @@ auth_strategy = keystone
 
 
 [api_database]
-connection = sqlite:////var/lib/nova/nova_api.sqlite
+# connection = sqlite:////var/lib/nova/nova_api.sqlite
 #
 # The *Nova API Database* is a separate database which is used for information
 # which is used across *cells*. This database is mandatory since the Mitaka
@@ -1909,7 +1909,7 @@ connection = sqlite:////var/lib/nova/nova_api.sqlite
 
 
 [database]
-connection = sqlite:////var/lib/nova/nova.sqlite
+# connection = sqlite:////var/lib/nova/nova.sqlite
 #
 # The *Nova Database* is the primary database which is used for information
 # local to a *cell*.
