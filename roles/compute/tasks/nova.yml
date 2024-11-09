@@ -14,13 +14,12 @@
 
 - name: put_nova_config
   ansible.builtin.template:
-    src: ./nova.conf.j2
-    dest:  /etc/nova/nova.conf
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: root
     group: root
     mode: '644'
   notify: restart_nova
-
-- name: install_nova_compute_qemu
-  ansible.builtin.apt:
-    name: nova-compute-qemu
+  loop:
+    - { src: './nova.conf.j2', dest: '/etc/nova/nova.conf' }
+    - { src: './nova-compute.conf.j2', dest: '/etc/nova/nova-compute.conf' }
