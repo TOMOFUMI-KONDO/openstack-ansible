@@ -19,6 +19,11 @@
     name: apache2
     state: restarted
 
+- name: reload_apache2
+  ansible.builtin.service:
+    name: apache2
+    state: reloaded
+
 - name: restart_glance_api
   ansible.builtin.service:
     name: glance-api

@@ -34,3 +34,7 @@
 - name: setup_neutron
   ansible.builtin.include_tasks:
     file: neutron.yml
+
+- name: setup_horizon
+  ansible.builtin.include_tasks:
+    file: horizon.yml

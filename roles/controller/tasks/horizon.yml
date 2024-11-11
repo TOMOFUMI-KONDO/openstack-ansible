@@ -1,0 +1,22 @@
+---
+- name: install_horizon
+  ansible.builtin.apt:
+    name: openstack-dashboard
+
+- name: put_horizon_config
+  ansible.builtin.copy:
+    src: ./horizon_local_settings.py
+    dest: /etc/openstack-dashboard/local_settings.py 
+    owner: root
+    group: root
+    mode: '644'
+  notify: reload_apache2
+
+- name: put_apache2_config
+  ansible.builtin.copy:
+    src: ./apache2_openstack_dashboard.conf
+    dest: /etc/apache2/conf-available/openstack-dashboard.conf 
+    owner: root
+    group: root
+    mode: '644'
+  notify: reload_apache2
