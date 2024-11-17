@@ -51,6 +51,7 @@
     - nova
     - nova_cell0
     - neutron
+    - cinder
   run_once: true
 
 - name: create_openstack_db_users
@@ -62,6 +63,7 @@
     - { user: 'placement', dbs: ['placement'], pass: "{{ database_placement_pass }}" }
     - { user: 'nova', dbs: ['nova_api', 'nova', 'nova_cell0'], pass: "{{ database_nova_pass }}" }
     - { user: 'neutron', dbs: ['neutron'], pass: "{{ database_neutron_pass }}" }
+    - { user: 'cinder', dbs: ['cinder'], pass: "{{ database_cinder_pass }}" }
   loop_control:
     loop_var: outer_item
   run_once: true

@@ -48,3 +48,8 @@
     - neutron-openvswitch-agent
     - neutron-dhcp-agent
     - neutron-metadata-agent
+    
+- name: restart_cinder
+  ansible.builtin.service:
+    name: cinder-scheduler
+    state: restarted

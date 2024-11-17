@@ -38,3 +38,7 @@
 - name: setup_horizon
   ansible.builtin.include_tasks:
     file: horizon.yml
+
+- name: setup_cinder
+  ansible.builtin.include_tasks:
+    file: cinder.yml

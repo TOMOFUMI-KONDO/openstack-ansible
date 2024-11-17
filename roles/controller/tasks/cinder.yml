@@ -1,0 +1,52 @@
+---
+- name: create_cinder_user
+  openstack.cloud.identity_user:
+    name: cinder
+    password: "{{ openstack_cinder_pass }}"
+    domain: default
+
+- name: add_admin_role_to_cinder
+  openstack.cloud.role_assignment:
+    user: cinder
+    role: admin
+    project: service
+
+- name: add_cinder_service
+  openstack.cloud.catalog_service:
+   name: cinderv3
+   type: volumev3
+   description: OpenStack Block Storage
+
+- name: create_endpoints
+  openstack.cloud.endpoint:
+     service: cinderv3
+     endpoint_interface: "{{ item }}"
+     url: http://controller:8776/v3/%(project_id)s
+     region: RegionOne
+  loop:
+    - public
+    - internal
+    - admin
+
+- name: install_cinder_packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - cinder-api
+    - cinder-scheduler
+
+- name: put_cinder_config
+  ansible.builtin.template:
+    src: ./cinder.conf.j2
+    dest:  /etc/cinder/cinder.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: 
+    - restart_cinder
+    - restart_apache2
+
+- name: run_db_sync
+  ansible.builtin.command:
+    cmd: su -s /bin/sh -c "cinder-manage db sync" cinder
+  changed_when: false
