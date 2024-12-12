@@ -22,9 +22,9 @@ controllers:
 
 computes:
   hosts:
-    # worker01:
-    #   ansible_host: 192.168.1.102
-    #   provider_interface: eth0
+    worker01:
+      ansible_host: 192.168.1.102
+      provider_interface: enx68e1dcc5f7fa
     worker02:
       ansible_host: 192.168.1.103
       provider_interface: enp4s0
