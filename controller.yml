@@ -6,7 +6,7 @@
     - controller
   vars_files:
     - ./vars/vars.yml
-    - ./vars/credential.yml
+    - ./vars/credentials.yml
   environment:
     OS_PROJECT_DOMAIN_NAME: Default
     OS_USER_DOMAIN_NAME: Default

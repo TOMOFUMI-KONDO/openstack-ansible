@@ -3,6 +3,8 @@ all:
     databases:
     controllers:
     computes:
+  vars:
+    ansible_user: admin
 
 openstack:
   children:

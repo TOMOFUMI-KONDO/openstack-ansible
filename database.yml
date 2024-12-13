@@ -4,4 +4,4 @@
     - database
   vars_files:
     - ./vars/vars.yml
-    - ./vars/credential.yml
+    - ./vars/credentials.yml
