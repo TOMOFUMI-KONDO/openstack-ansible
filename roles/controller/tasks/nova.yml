@@ -21,7 +21,7 @@
   openstack.cloud.endpoint:
      service: nova
      endpoint_interface: "{{ item }}"
-     url: http://controller:8774/v2.1
+     url: http://{{ hostname_controller }}:8774/v2.1
      region: RegionOne
   loop:
     - public

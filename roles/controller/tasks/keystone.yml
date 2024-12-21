@@ -41,9 +41,9 @@
   ansible.builtin.command:
     cmd: >
       keystone-manage bootstrap --bootstrap-password "{{ openstack_admin_pass }}"
-        --bootstrap-admin-url http://controller:5000/v3/
-        --bootstrap-internal-url http://controller:5000/v3/
-        --bootstrap-public-url http://controller:5000/v3/
+        --bootstrap-admin-url http://{{ hostname_controller }}:5000/v3/
+        --bootstrap-internal-url http://{{ hostname_controller }}:5000/v3/
+        --bootstrap-public-url http://{{ hostname_controller }}:5000/v3/
         --bootstrap-region-id RegionOne
   changed_when: false
   run_once: true

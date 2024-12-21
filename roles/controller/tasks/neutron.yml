@@ -21,7 +21,7 @@
   openstack.cloud.endpoint:
      service: neutron
      endpoint_interface: "{{ item }}"
-     url: http://controller:9696
+     url: http://{{ hostname_controller }}:9696
      region: RegionOne
   loop:
     - public

@@ -21,7 +21,7 @@
   openstack.cloud.endpoint:
      service: glance
      endpoint_interface: "{{ item }}"
-     url: http://controller:9292
+     url: http://{{ hostname_controller }}:9292
      region: RegionOne
   loop:
     - public

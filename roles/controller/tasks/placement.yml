@@ -21,7 +21,7 @@
   openstack.cloud.endpoint:
      service: placement
      endpoint_interface: "{{ item }}"
-     url: http://controller:8778
+     url: http://{{ hostname_controller }}:8778
      region: RegionOne
   loop:
     - public
