@@ -712,7 +712,7 @@ log_dir = /var/log/keystone
 
 
 [database]
-connection = "mysql+pymysql://keystone:{{ database_keystone_pass }}@controller/keystone"
+connection = "mysql+pymysql://keystone:{{ database_keystone_pass }}@{{ hostname_controller }}/keystone"
 
 #
 # From oslo.db

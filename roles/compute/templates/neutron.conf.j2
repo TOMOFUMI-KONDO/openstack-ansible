@@ -559,7 +559,7 @@ core_plugin = ml2
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-transport_url = rabbit://openstack:{{ rabbitmq_pass }}@controller
+transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)

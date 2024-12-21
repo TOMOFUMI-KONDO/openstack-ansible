@@ -11,16 +11,16 @@ lock_path = /var/lock/cinder
 volumes_dir = /var/lib/cinder/volumes
 enabled_backends = lvm
 
-transport_url = rabbit://openstack:{{ rabbitmq_pass }}@controller
+transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
 my_ip = 192.168.1.101
 
 [database]
-connection = mysql+pymysql://cinder:{{ database_cinder_pass }}@controller/cinder
+connection = mysql+pymysql://cinder:{{ database_cinder_pass }}@{{ hostname_controller }}/cinder
 
 [keystone_authtoken]
-www_authenticate_uri = http://controller:5000
-auth_url = http://controller:5000
-memcached_servers = controller:11211
+www_authenticate_uri = http://{{ hostname_controller }}:5000
+auth_url = http://{{ hostname_controller }}:5000
+memcached_servers = {{ hostname_controller }}:11211
 auth_type = password
 project_domain_name = default
 user_domain_name = default

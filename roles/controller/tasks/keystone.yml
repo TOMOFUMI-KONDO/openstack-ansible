@@ -50,7 +50,7 @@
 
 - name: put_apache2_config
   ansible.builtin.copy:
-    src: ./apache2.conf
+    src: ./apache2.conf.j2
     dest:  /etc/apache2/apache2.conf
     owner: root
     group: root

@@ -559,7 +559,7 @@ notify_nova_on_port_data_changes = true
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-transport_url = rabbit://openstack:{{ rabbitmq_pass }}@controller
+transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)
@@ -958,7 +958,7 @@ root_helper = "sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf"
 
 
 [database]
-connection = mysql+pymysql://neutron:{{ database_neutron_pass }}@controller/neutron
+connection = mysql+pymysql://neutron:{{ database_neutron_pass }}@{{ hostname_controller }}/neutron
 
 #
 # From neutron.db
@@ -1348,8 +1348,8 @@ connection = mysql+pymysql://neutron:{{ database_neutron_pass }}@controller/neut
 # because normal end users may not be able to reach that endpoint. (string
 # value)
 # Deprecated group/name - [keystone_authtoken]/auth_uri
-www_authenticate_uri = http://controller:5000
-auth_url = http://controller:5000
+www_authenticate_uri = http://{{ hostname_controller }}:5000
+auth_url = http://{{ hostname_controller }}:5000
 
 # DEPRECATED: Complete "public" Identity API endpoint. This endpoint should not
 # be an "admin" endpoint, as it should be accessible by all end users.
@@ -1410,7 +1410,7 @@ auth_url = http://controller:5000
 # Optionally specify a list of memcached server(s) to use for caching. If left
 # undefined, tokens will instead be cached in-process. (list value)
 # Deprecated group/name - [keystone_authtoken]/memcache_servers
-memcached_servers = controller:11211
+memcached_servers = {{ hostname_controller }}:11211
 
 # In order to prevent excessive effort spent validating tokens, the middleware
 # caches previously-seen tokens for a configurable duration (in seconds). Set
@@ -1524,7 +1524,7 @@ region_name = RegionOne
 #
 
 # Authentication URL (string value)
-auth_url = http://controller:5000
+auth_url = http://{{ hostname_controller }}:5000
 
 # Authentication type to load (string value)
 # Deprecated group/name - [nova]/auth_plugin
