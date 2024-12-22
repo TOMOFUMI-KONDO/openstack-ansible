@@ -1,0 +1,45 @@
+---
+- name: install_lvm_packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - lvm2
+    - thin-provisioning-tools
+
+- name: create_lvm_pv_and_vg
+  community.general.lvg:
+    vg: cinder-volumes
+    pvs: "{{ pv_devices | map('regex_replace', '^(.*)$', '/dev/\\1') | join(',') }}"
+
+- name: put_lvm_config
+  ansible.builtin.template:
+    src: ./lvm.conf.j2
+    dest: /etc/lvm/lvm.conf
+    owner: root
+    group: root
+    mode: '644'
+
+- name: install_cinder_packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  loop:
+    - cinder-volume
+    - tgt
+
+- name: put_cinder_config
+  ansible.builtin.template:
+    src: ./cinder.conf.j2
+    dest: /etc/cinder/cinder.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_cinder
+
+- name: put_tgt_config
+  ansible.builtin.copy:
+    src: ./tgt-cinder.conf
+    dest: /etc/tgt/conf.d/cinder.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: restart_tgt

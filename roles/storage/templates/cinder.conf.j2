@@ -3,16 +3,21 @@ rootwrap_config = /etc/cinder/rootwrap.conf
 api_paste_confg = /etc/cinder/api-paste.ini
 iscsi_helper = lioadm
 volume_name_template = volume-%s
-volume_group = cinder-volumes
 verbose = True
-auth_strategy = keystone
 state_path = /var/lib/cinder
-lock_path = /var/lock/cinder
 volumes_dir = /var/lib/cinder/volumes
-enabled_backends = lvm
 
 transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
+auth_strategy = keystone
 my_ip = {{ ansible_host }}
+enabled_backends = lvm
+glance_api_servers = http://{{ hostname_controller }}:9292
+
+[lvm]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+target_protocol = iscsi
+target_helper = tgtadm
 
 [database]
 connection = mysql+pymysql://cinder:{{ database_cinder_pass }}@{{ hostname_controller }}/cinder
@@ -29,4 +34,4 @@ username = cinder
 password = {{ openstack_cinder_pass }}
 
 [oslo_concurrency]
-lock_path = /var/lib/cinder/tmp
+lock_path = /var/lock/cinder

@@ -1,0 +1,10 @@
+---
+- name: restart_cinder
+  ansible.builtin.service:
+    name: cinder-volume
+    state: restarted
+
+- name: restart_tgt
+  ansible.builtin.service:
+    name: tgt
+    state: restarted
