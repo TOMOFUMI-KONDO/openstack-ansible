@@ -7,11 +7,12 @@ verbose = True
 state_path = /var/lib/cinder
 volumes_dir = /var/lib/cinder/volumes
 
-transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
-auth_strategy = keystone
 my_ip = {{ ansible_host }}
-enabled_backends = lvm
+transport_url = rabbit://openstack:{{ rabbitmq_pass }}@{{ hostname_controller }}
 glance_api_servers = http://{{ hostname_controller }}:9292
+auth_strategy = keystone
+enabled_backends = lvm
+default_volume_type = lvm
 
 [lvm]
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
